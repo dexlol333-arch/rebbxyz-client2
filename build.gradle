@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.9-SNAPSHOT'
+    id 'fabric-loom' version '1.9.2'
     id 'maven-publish'
 }
 
@@ -8,6 +8,10 @@ group = 'com.rebbxyz'
 
 base {
     archivesName = 'rebbxyz-client'
+}
+
+loom {
+    unpickVersion = null
 }
 
 repositories {
