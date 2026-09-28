@@ -11,7 +11,9 @@ base {
 }
 
 loom {
-    unpickVersion = null
+    unpick {
+        enabled = false
+    }
 }
 
 repositories {
