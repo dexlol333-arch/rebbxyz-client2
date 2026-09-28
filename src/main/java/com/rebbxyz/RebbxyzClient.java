@@ -1,31 +1,31 @@
 package com.rebbxyz;
 
 import com.rebbxyz.gui.ClickGuiScreen;
-import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.minecraft.client.KeyMapping;
-import net.minecraft.network.chat.Component;
+import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.util.InputUtil;
+import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
 public class RebbxyzClient implements ClientModInitializer {
     public static final String CLIENT_NAME = "rebbxyz client";
-    public static KeyMapping openGuiKey;
+    public static KeyBinding openGuiKey;
 
     @Override
     public void onInitializeClient() {
-        openGuiKey = KeyBindingHelper.registerKeyBinding(new KeyMapping(
+        openGuiKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
             "key.rebbxyz.open_gui",
-            InputConstants.Type.KEYSYM,
+            InputUtil.Type.KEYSYM,
             GLFW.GLFW_KEY_RIGHT_SHIFT,
             "category.rebbxyz"
         ));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            while (openGuiKey.consumeClick()) {
-                if (client.screen == null) {
-                    client.setScreen(new ClickGuiScreen(Component.literal("Click GUI")));
+            while (openGuiKey.wasPressed()) {
+                if (client.currentScreen == null) {
+                    client.setScreen(new ClickGuiScreen(Text.literal("Click GUI")));
                 }
             }
         });
