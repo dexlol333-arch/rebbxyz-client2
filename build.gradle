@@ -1,33 +1,75 @@
-package com.rebbxyz;
+plugins {
+    id 'fabric-loom' version '1.8-SNAPSHOT'
+    id 'maven-publish'
+}
 
-import com.rebbxyz.gui.ClickGuiScreen;
-import com.mojang.blaze3d.platform.InputConstants;
-import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.minecraft.client.KeyMapping;
-import net.minecraft.network.chat.Component;
-import org.lwjgl.glfw.GLFW;
+version = project.mod_version
+group = project.maven_group
 
-public class RebbxyzClient implements ClientModInitializer {
-    public static final String CLIENT_NAME = "rebbxyz client";
-    public static KeyMapping openGuiKey;
+base {
+    archivesName = project.archives_base_name
+}
 
-    @Override
-    public void onInitializeClient() {
-        openGuiKey = KeyBindingHelper.registerKeyBinding(new KeyMapping(
-            "key.rebbxyz.open_gui",
-            InputConstants.Type.KEYSYM,
-            GLFW.GLFW_KEY_RIGHT_SHIFT,
-            "category.rebbxyz"
-        ));
+repositories {
+    maven {
+        name = "Fabric"
+        url = "https://maven.fabricmc.net/"
+    }
+}
 
-        ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            while (openGuiKey.consumeClick()) {
-                if (client.screen == null) {
-                    client.setScreen(new ClickGuiScreen(Component.literal("Click GUI")));
-                }
-            }
-        });
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "netHere is the clean **`build.gradle`** configured for Mojang Mappings on Minecraft 1.21.1:
+
+```groovy
+plugins {
+    id 'fabric-loom' version '1.8-SNAPSHOT'
+    id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "Fabric"
+        url = "[https://maven.fabricmc.net/](https://maven.fabricmc.net/)"
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+}
+
+processResources {
+    inputs.property "version", project.mod_version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.mod_version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 21
+}
+
+java {
+    withSourcesJar()
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+jar {
+    from("LICENSE") {
+        rename "${it}_${project.archives_base_name}"
     }
 }
