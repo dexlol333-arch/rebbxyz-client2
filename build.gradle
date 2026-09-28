@@ -11,35 +11,10 @@ base {
 }
 
 repositories {
-    maven {
-        name = "Fabric"
-        url = "https://maven.fabricmc.net/"
-    }
-}
-
-dependencies {
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings loom.officialMojangMappings()
-    modImplementation "netHere is the clean **`build.gradle`** configured for Mojang Mappings on Minecraft 1.21.1:
-
-```groovy
-plugins {
-    id 'fabric-loom' version '1.8-SNAPSHOT'
-    id 'maven-publish'
-}
-
-version = project.mod_version
-group = project.maven_group
-
-base {
-    archivesName = project.archives_base_name
-}
-
-repositories {
     mavenCentral()
     maven {
         name = "Fabric"
-        url = "[https://maven.fabricmc.net/](https://maven.fabricmc.net/)"
+        url = "https://maven.fabricmc.net/"
     }
 }
 
